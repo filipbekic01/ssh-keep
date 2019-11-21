@@ -1,133 +1,52 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"os/user"
-	"strconv"
-	"syscall"
-
-	"github.com/manifoldco/promptui"
 )
 
-func main() {
-	var args []string
-	var argsLen int
-	var cmd string
+const CONF_FILE string = ".ssh-keep.conf"
+const HELP string = "🏰 ssh-keep"
+const LABEL string = "Open new SSH tunnel to:"
+const INACTIVE string = "  {{ . }}"
+const ACTIVE string = "➤ {{ . | green }}"
+const EXE string = "bash"
+const EXIT string = "exit"
+const INFO string = `You're missing the configuration file.
+1) Open ~/.ssh-keep.conf file")
+2) Add SSH connection lines, for example:
+  user@host
+  user2@host2
+  user3@host3
+3) Happy tunneling!
+  Check https://github.com/filipbekic01/ssh-keep for more configuration information.`
 
-	args = os.Args[1:]
-	argsLen = len(args)
+var USER *user.User
+var ERR error
+
+func main() {
+	args := os.Args[1:]
+	argsLen := len(args)
 
 	if argsLen == 0 {
 		list()
 		return
 	}
 
-	cmd = args[0]
+	if argsLen > 1 {
+		fmt.Print(INFO)
+	}
+
+	cmd := args[0]
 
 	if cmd == "help" {
-		fmt.Println("Edit ~/.ssh_keep.conf file.")
+		fmt.Println(INFO)
 		return
 	}
 }
 
-func list() {
-
-	var items []string
-
-	// Get user
-	osUser, err := user.Current()
-	check(err)
-
-	// Open file
-	file, err := os.Open(osUser.HomeDir + "/.ssh-keep.conf")
-	if err != nil {
-		os.Create(osUser.HomeDir + "/.ssh-keep.conf")
-		fmt.Println("You're missing the configuration file.")
-		fmt.Println("1) Open ~/.ssh-keep.conf file")
-		fmt.Println(`2) Add SSH connection lines, for example:
-	user@host
-	user2@host2
-	user3@host3`)
-		fmt.Println(`3) Happy tunneling!
-	Check https://github.com/filipbekic01/ssh-keep for more configuration information.`)
-		return
-	}
-	defer file.Close()
-
-	// Scan file
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		items = append(items, scanner.Text())
-	}
-	items = append(items, "exit")
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	// Template
-	templates := &promptui.SelectTemplates{
-		Help:     "🏰 ssh-keep",
-		Label:    "Open new SSH tunnel to:",
-		Inactive: "  {{ . }}",
-		Active:   "➤ {{ . | green }}",
-	}
-
-	// Select
-	prompt := promptui.Select{
-		Items:     items,
-		Templates: templates,
-	}
-
-	_, result, err := prompt.Run()
-	check(err)
-
-	if result != "exit" {
-		ssh(result)
-	}
-}
-
-func ssh(cmdTest string) {
-	usr, err := user.Current()
-	check(err)
-
-	uid, err := strconv.Atoi(usr.Uid)
-	check(err)
-
-	gid, err := strconv.Atoi(usr.Gid)
-	check(err)
-
-	// The Credential fields are used to set UID, GID and attitional GIDS of the process
-	// You need to run the program as  root to do this
-	var cred = &syscall.Credential{
-		Uid:         uint32(uid),
-		Gid:         uint32(gid),
-		Groups:      []uint32{},
-		NoSetGroups: true,
-	}
-
-	// the Noctty flag is used to detach the process from parent tty
-	var sysproc = &syscall.SysProcAttr{Credential: cred, Noctty: true}
-	var attr = os.ProcAttr{
-		Dir: ".",
-		Env: os.Environ(),
-		Files: []*os.File{
-			os.Stdin,
-			os.Stdout,
-			os.Stderr,
-		},
-
-		Sys: sysproc,
-	}
-
-	// Start process
-	process, err := os.StartProcess("/bin/ssh", []string{"/bin/ssh", "projectnelth.com"}, &attr)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	process.Wait()
+func loadUser() {
+	USER, ERR = user.Current()
+	check(ERR)
 }
