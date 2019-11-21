@@ -6,6 +6,7 @@ import (
 	"os/user"
 )
 
+const SSH_PATH string = "/bin/ssh"
 const CONF_FILE string = ".ssh-keep.conf"
 const HELP string = "🏰 ssh-keep"
 const LABEL string = "Open new SSH tunnel to:"

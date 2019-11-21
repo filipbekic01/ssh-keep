@@ -57,7 +57,7 @@ func list() {
 	}
 }
 
-func run(cmdTest string) {
+func run(command string) {
 	uid, err := strconv.Atoi(USER.Uid)
 	check(err)
 
@@ -85,7 +85,10 @@ func run(cmdTest string) {
 		Sys: sysproc,
 	}
 
-	process, err := os.StartProcess("/bin/ssh", []string{"/bin/ssh", "projectnelth.com"}, &attr)
+	params := strings.Split(command, " ")
+	params = append([]string{SSH_PATH}, params...)
+
+	process, err := os.StartProcess(SSH_PATH, params, &attr)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
