@@ -27,6 +27,8 @@ func main() {
 	args := os.Args[1:]
 	argsLen := len(args)
 
+	loadUser()
+
 	if argsLen == 0 {
 		list()
 		return
