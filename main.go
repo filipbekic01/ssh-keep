@@ -44,8 +44,15 @@ func list() {
 	// Open file
 	file, err := os.Open(osUser.HomeDir + "/.ssh-keep.conf")
 	if err != nil {
-		fmt.Println(err)
-		fmt.Println()
+		os.Create(osUser.HomeDir + "/.ssh-keep.conf")
+		fmt.Println("You're missing the configuration file.")
+		fmt.Println("1) Open ~/.ssh-keep.conf file")
+		fmt.Println(`2) Add SSH connection lines, for example:
+	user@host
+	user2@host2
+	user3@host3`)
+		fmt.Println(`3) Happy tunneling!
+	Check https://github.com/filipbekic01/ssh-keep for more configuration information.`)
 		return
 	}
 	defer file.Close()
