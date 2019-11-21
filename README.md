@@ -1,11 +1,13 @@
 ![ssh-keep](https://i.imgur.com/sEr1RRJ.png)
 
 # ssh-keep
-Easy way access and keep track of SSH connections. It runs on single configuration file you can backup to your cloud or hard drive. Share accross devices in no time. Give it a shot!
+Easy way to access and keep track of your SSH connections. It runs on single configuration file which you can backup to your cloud or hard drive and share accross devices your way. Give it a shot!
 
 ## Install
 
 Download latest release and extract to `/usr/share/bin` or any other folder listed in your `$PATH` variable. Therefore it's executable from your console.
+
+![terminal](https://i.imgur.com/QPrakTQ.png)
 
 ## Configure
 

@@ -16,11 +16,9 @@ const EXIT string = "exit"
 const INFO string = `You're missing the configuration file.
 1) Open ~/.ssh-keep.conf file")
 2) Add SSH connection lines, for example:
-  user@host
-  user2@host2
-  user3@host3
-3) Happy tunneling!
-  Check https://github.com/filipbekic01/ssh-keep for more configuration information.`
+  user@hostname
+  user@hostname -i /home/example/your-public-key.pub
+  user2@ipaddress`
 
 var USER *user.User
 var ERR error
