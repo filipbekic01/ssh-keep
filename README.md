@@ -1,7 +1,7 @@
 ![ssh-keep](https://i.imgur.com/sEr1RRJ.png)
 
 # ssh-keep
-Easy way to access and keep track of your SSH connections. It runs on single configuration file which you can backup to your cloud or hard drive and share accross devices your way. Give it a shot! :blush:
+Easy way to access and keep track of your SSH connections. It runs on single configuration file which you can backup to your cloud or hard drive and share accross devices your way. Give it a shot!
 
 ## Install
 
