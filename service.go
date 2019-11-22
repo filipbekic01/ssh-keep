@@ -71,7 +71,10 @@ func run(command string) {
 		NoSetGroups: true,
 	}
 
-	sysproc := &syscall.SysProcAttr{Credential: cred, Noctty: true}
+	sysproc := &syscall.SysProcAttr{
+		Credential: cred,
+		Noctty:     true,
+	}
 
 	attr := os.ProcAttr{
 		Dir: ".",
