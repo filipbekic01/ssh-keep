@@ -5,15 +5,17 @@ Easy way to access and keep track of your SSH connections. It runs on single con
 
 ## Install
 
-Download latest release and extract to `/usr/share/bin` or any other folder listed in your `$PATH` variable. Therefore it's executable from your console.
-
-![terminal](https://i.imgur.com/Xlt9OuD.png)
+Download latest release and extract file to `/usr/share/bin` with execute permission.
 
 ## Configure
 
-Once you start `ssh-keep` it should automaticall create `~/.ssh-keep.conf` file for you. Otherwise manually create it and add `SSH` lines. Here is an example:
+Once you run `ssh-keep` command in your console, it should automaticall create `~/.ssh-keep.conf` file for you. Otherwise manually add it and write `SSH` lines with optional parameters. Make sure that one `SSH` command is in one line. Here is an example:
 
-![config](https://i.imgur.com/xqcKLP0.png)
+```
+filip@filip-bekic.dev
+root@filip-bekic.dev -i ~/path/to/public-key.pub
+...
+```
 
 Add alias to your `~/.bashrc` for faster tool access (optional).
 ```
@@ -21,9 +23,10 @@ alias sk="ssh-keep"
 ```
 
 ## Run
-Once you hit `ssh-keep` you should see something like this:
+Once you run `ssh-keep` after configuration, you should see next: 
 
-![run_1](https://i.imgur.com/YYFkAx7.png)
-![run_2](https://i.imgur.com/6JDNh2g.png)
+![run_1](https://i.imgur.com/tXbjDjE.png)
+
+
 
 
